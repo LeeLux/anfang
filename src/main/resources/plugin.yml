@@ -89,3 +89,7 @@ commands:
       description: Set a players pvp state!
       usage:
       permission: anfang.command.pvp
+   moderation:
+      description: sets a players moderation mode
+      usage:
+      permission: anfang.command.moderation

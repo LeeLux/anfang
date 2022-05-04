@@ -31,6 +31,7 @@ public final class Anfang extends JavaPlugin {
     private ItemBuilder itemBuilder;
     private ManagerTabList managerTabList;
     private MessageCooldown messageCooldown;
+    private ManageModeration manageModeration;
 
     public MySQL SQL;
     public SQLGetter database;
@@ -78,6 +79,7 @@ public final class Anfang extends JavaPlugin {
         this.itemBuilder = new ItemBuilder(this);
         this.managerTabList = new ManagerTabList();
         this.messageCooldown = new MessageCooldown(this);
+        this.manageModeration = new ManageModeration(this);
         this.setVanishManager(new ManageVanish(this));
         this.setFreezManager(new ManageFreez((Plugin) null));
         this.getCommand("heal").setExecutor(new CommandHeal(plugin));
@@ -99,6 +101,7 @@ public final class Anfang extends JavaPlugin {
         this.getCommand("anfang").setExecutor(new CommandAnfang());
         this.getCommand("state").setExecutor(new CommandState());
         this.getCommand("pvp").setExecutor(new CommandPvp());
+        this.getCommand("moderation").setExecutor(new CommandModeration());
         //this.getCommand("ban").setExecutor(new CommandBan());
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new ListenerJoin(plugin), this);
@@ -200,6 +203,8 @@ public final class Anfang extends JavaPlugin {
     public ItemBuilder getItemBuilder() {return itemBuilder;}
 
     public ManagerTabList getManagerTabList() {return managerTabList;}
+
+    public ManageModeration getManageModeration() {return manageModeration;}
 
     //Provide a player and return a menu system for that player
     //create one if they don't already have one
