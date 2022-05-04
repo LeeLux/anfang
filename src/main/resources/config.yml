@@ -1,0 +1,68 @@
+# #-----------------------------------------------------------------------##
+# #   Made by LeeLux                                                      ##
+# #   website: https://www.youtube.com/channel/UCTL2EnToGrLXZaHV7oYHRDg   ##
+# #-----------------------------------------------------------------------##
+#
+#
+#turn this un if you want a ton of debug messages (useful for dev)
+debug: false
+motd: '&eThis is the &dmotd&e!'
+prefix: '&7[&eAnfang&7]'
+Fun:
+  #Ths Op Crossbow will have an arrow velocity multipled by 100
+  OpCrossbowCanActivate: true
+  #use "you text" instead of 'you text' or it will not work
+  OpCrossbowNameToActivate: "Ainsta"
+Messages:
+  #set some default messages
+  NoPermission: '&cNo Permission!'
+  NotaPlayer: '&cYou must be a Player to use this Command!'
+  Visible: '&eYou are now &avisible!'
+  Vanished: '&eYou are now &cvanished!'
+Database:
+  #money prefix. Leave it empty if you don't want one
+  prefix: '$'
+  #money suffix. Leave it empty if you don't want one
+  suffix: ''
+  #when the database is not connected error message
+  #for admin (Op)
+  CommNotAvailableAdmin: '&cThe databse is not connected and the command was deactivated. Pls connect the database to use ths command agan.'
+  #all other players will get a message that the command is not available at the moment
+  CommNotAvailable: '&cThs command is not available at the moment. Pls contact staff.'
+  #you should not make it over 9223372036854775807 or thinks will break
+  MaxMoney: 922337203685477580
+Items:
+  #can be change close to any item you want if you know the syntax
+  GuiGlassPane: BLACK_STAINED_GLASS_PANE
+Commands:
+  ban:
+    defaultMessages:
+      Reason: "&cYou are banned!\n&dTo unban ask a Admin!"
+      Kick: "&CHe got banned from the Server!"
+  summonmax:
+    #what is the max amount of entitys that you can summon at once with that command
+    MaxAmount: 1000
+  pvp:
+    use: true
+    creativeHitEverTime: true
+TabList:
+  use: true
+  header:
+    - ' &8&m          &r&8[ &6Tab&dList &8]&m          &r '
+    - ''
+  footer:
+    - ''
+    - ' &8&m          &r&8[ &6Tab&dList &8]&m          &r '
+States:
+- afk
+- building
+- fishing
+- hunting
+- running
+- exploring
+- pvp
+- pve
+#the time in seconds you wound will get the same Message in chat
+basicMessageCooldown: 2
+spamMessageCooldown: 5
+
