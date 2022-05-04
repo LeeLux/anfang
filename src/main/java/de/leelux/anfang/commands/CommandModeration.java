@@ -72,7 +72,7 @@ public class CommandModeration implements CommandExecutor, TabCompleter {
                 }
                 if(args[0].equalsIgnoreCase("false")) {
                     if(!manageModeration.getModeration(player)){
-                        mc.sendMessage(target,ChatColor.RED+"You Moderation Mode is already: "+ChatColor.RED+"False");
+                        mc.sendMessage(target,ChatColor.RED+"You Moderation Mode is already: "+ChatColor.RED+"false");
                         return true;
                     }
                     manageModeration.setModeration(target, true);
@@ -113,10 +113,10 @@ public class CommandModeration implements CommandExecutor, TabCompleter {
                 mc.sendMessage(target,ChatColor.YELLOW+"You set you Moderation Mode to: "+ChatColor.RED+"false");
                 return true;
             }
-            sender.sendMessage(ChatColor.RED+"Use /moderator <true <player>|false <player>>");
-            return true;
         }
+        return false;
     }
+
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         List<String> completions = new ArrayList<>();
