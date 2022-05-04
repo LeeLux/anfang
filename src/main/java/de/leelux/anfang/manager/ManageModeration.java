@@ -24,8 +24,6 @@ public class ManageModeration {
         File file = new File(plugin.getDataFolder(),"moderation.yml");
         YamlConfiguration moderation = YamlConfiguration.loadConfiguration(file);
         moderation.addDefault("teleportBackToLocation",true);
-        moderation.addDefault("goInModerationModeMessage",ChatColor.YELLOW+"You are now in Moderation mode!");
-        moderation.addDefault("goOutModerationModeMessage",ChatColor.YELLOW+"You are now back in Normal mode!");
         if(!(moderation.contains(player.getUniqueId().toString()))){
             moderation.set(player.getUniqueId()+".Name",player.getName());
         }
@@ -45,7 +43,6 @@ public class ManageModeration {
             trySaveConfig(moderation,file);
             player.getInventory().clear();
             player.setGameMode(GameMode.CREATIVE);
-            player.sendMessage(Objects.requireNonNull(moderation.getString("goInModerationModeMessage")));
         }else{
             player.getInventory().clear();
             //restore old player data
@@ -78,8 +75,6 @@ public class ManageModeration {
             if(moderation.getBoolean("teleportBackToLocation")){
                 player.teleport(Objects.requireNonNull(moderation.getLocation(player.getUniqueId() + ".Location")));
             }
-            //message
-            player.sendMessage(Objects.requireNonNull(moderation.getString("goOutModerationModeMessage")));
         }
     }
     public boolean getModeration(Player player){

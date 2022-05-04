@@ -38,8 +38,22 @@ public class CommandModeration implements CommandExecutor, TabCompleter {
                 }
             }
             if(args.length == 1){
-                if(args[0].equalsIgnoreCase("true")) manageModeration.setModeration(player,true);
-                if(args[0].equalsIgnoreCase("false")) manageModeration.setModeration(player,false);
+                if(args[0].equalsIgnoreCase("true")) {
+                    if(manageModeration.getModeration(player)){
+                        mc.sendMessage(player,ChatColor.RED+"You are already in Moderation Mode!");
+                        return true;
+                    }
+                    manageModeration.setModeration(player, true);
+                    mc.sendMessage(player,ChatColor.YELLOW+"You set you Moderation Mode to: "+ChatColor.GREEN+"true");
+                }
+                if(args[0].equalsIgnoreCase("false")) {
+                    if(!manageModeration.getModeration(player)){
+                        mc.sendMessage(player,ChatColor.RED+"You are already in Normal Mode!");
+                        return true;
+                    }
+                    manageModeration.setModeration(player, false);
+                    mc.sendMessage(player,ChatColor.YELLOW+"You set you Moderation Mode to: "+ChatColor.RED+"false");
+                }
             }
             if(args.length == 2){
                 Player target = Bukkit.getPlayer(args[1]);
@@ -49,7 +63,7 @@ public class CommandModeration implements CommandExecutor, TabCompleter {
                 }
                 if(args[0].equalsIgnoreCase("true")) {
                     if(manageModeration.getModeration(player)){
-                        mc.sendMessage(player,ChatColor.RED+"You are already in Moderation Mode!");
+                        mc.sendMessage(target,ChatColor.RED+"You Moderation Mode is already: "+ChatColor.GREEN+"true");
                         return true;
                     }
                     manageModeration.setModeration(target, true);
@@ -58,7 +72,7 @@ public class CommandModeration implements CommandExecutor, TabCompleter {
                 }
                 if(args[0].equalsIgnoreCase("false")) {
                     if(!manageModeration.getModeration(player)){
-                        mc.sendMessage(player,ChatColor.RED+"You are already in Normal Mode!");
+                        mc.sendMessage(target,ChatColor.RED+"You Moderation Mode is already: "+ChatColor.RED+"False");
                         return true;
                     }
                     manageModeration.setModeration(target, true);
@@ -81,20 +95,22 @@ public class CommandModeration implements CommandExecutor, TabCompleter {
             }
             if(args[0].equalsIgnoreCase("true")) {
                 if(manageModeration.getModeration(target)){
-                    sender.sendMessage(target.getName()+ChatColor.RED+" is already in Moderation Mode!");
+                    sender.sendMessage(target.getName()+ChatColor.RED+"'s Moderation Mode is already: "+ChatColor.GREEN+"true");
                     return true;
                 }
                 manageModeration.setModeration(target, true);
                 sender.sendMessage(ChatColor.YELLOW+"You set "+target.getName()+"'s Moderation Mode to: "+ChatColor.GREEN+"true");
+                mc.sendMessage(target,ChatColor.YELLOW+"You set you Moderation Mode to: "+ChatColor.GREEN+"true");
                 return true;
             }
             if(args[0].equalsIgnoreCase("false")) {
                 if(!manageModeration.getModeration(target)){
-                    sender.sendMessage(target.getName()+ChatColor.RED+" is already in Normal Mode!");
+                    sender.sendMessage(target.getName()+ChatColor.RED+"'s Moderation Mode is already: "+ChatColor.RED+"false");
                     return true;
                 }
                 manageModeration.setModeration(target, true);
                 sender.sendMessage(ChatColor.YELLOW+"You set "+target.getName()+"'s Moderation Mode to: "+ChatColor.RED+"false");
+                mc.sendMessage(target,ChatColor.YELLOW+"You set you Moderation Mode to: "+ChatColor.RED+"false");
                 return true;
             }
             sender.sendMessage(ChatColor.RED+"Use /moderator <true <player>|false <player>>");
