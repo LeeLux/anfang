@@ -1,7 +1,6 @@
 package de.leelux.anfang.commands;
 
 import de.leelux.anfang.Anfang;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,26 +24,9 @@ public class CommandAnfang implements CommandExecutor, TabCompleter {
                 sender.sendMessage(Anfang.getPlugin().getMessage("Messages.NoPermission"));
                 return true;
             }
-            if(args[1].equalsIgnoreCase("config")){
-                if(!(sender.hasPermission("anfang.command.anfang.reload.config"))){
-                    sender.sendMessage(Anfang.getPlugin().getMessage("Messages.NoPermission"));
-                    return true;
-                }
-                Anfang.getPlugin().configReload();
-                sender.sendMessage(ChatColor.GREEN+"reloaded: "+ChatColor.ITALIC+"config");
-                return true;
-            }
-            if(args[1].equalsIgnoreCase("tab")){
-                if(!(sender.hasPermission("anfang.command.anfang.reload.tab"))){
-                    sender.sendMessage(Anfang.getPlugin().getMessage("Messages.NoPermission"));
-                    return true;
-                }
-                Bukkit.getOnlinePlayers().forEach(player -> {
-                    Anfang.getPlugin().getManagerTabList().setPlayerListHeaderFooterfromConfig(player);
-                });
-                sender.sendMessage(ChatColor.GREEN+"reloaded: "+ChatColor.ITALIC+"tab");
-                return true;
-            }
+            Anfang.getPlugin().configReload();
+            sender.sendMessage(ChatColor.GREEN+"reloaded: "+ChatColor.ITALIC+"config");
+            return true;
         }
         if(args[0].equalsIgnoreCase("version")) {
             if(!(sender.hasPermission("anfang.command.anfang.version"))){

@@ -80,8 +80,6 @@ public class CommandModeration implements CommandExecutor, TabCompleter {
                     return true;
                 }
             }
-            mc.sendMessage(player,ChatColor.RED+"Use /moderator <true <player>|false <player>>");
-            return true;
         }else{
             //non player command
             if(args.length != 2){
