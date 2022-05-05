@@ -30,12 +30,11 @@ public class CommandModeration implements CommandExecutor, TabCompleter {
         if(sender instanceof Player player){
             if(args.length == 0){
                 if(manageModeration.getModeration(player)){
-                    mc.sendMessage(player, ChatColor.YELLOW+"You are currently in "+ChatColor.GREEN+"Moderation"+ChatColor.YELLOW+" Mode.");
-                    return true;
+                    mc.sendMessage(player, ChatColor.YELLOW+"You Moderation Mode is currently: "+ChatColor.GREEN+"true");
                 }else{
-                    mc.sendMessage(player, ChatColor.YELLOW+"You are currently in Mode: "+ChatColor.RED+"Normal"+ChatColor.YELLOW+" Mode.");
-                    return true;
+                    mc.sendMessage(player, ChatColor.YELLOW+"You Moderation Mode is currently: "+ChatColor.RED+"false");
                 }
+                return true;
             }
             if(args.length == 1){
                 if(args[0].equalsIgnoreCase("true")) {

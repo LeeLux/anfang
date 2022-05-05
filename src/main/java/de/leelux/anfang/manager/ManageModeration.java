@@ -10,6 +10,8 @@ import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -20,16 +22,22 @@ public class ManageModeration {
         this.plugin = plugin;
     }
 
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     public void setModeration(Player player, boolean bol){
         File file = new File(plugin.getDataFolder(),"moderation.yml");
         YamlConfiguration moderation = YamlConfiguration.loadConfiguration(file);
-        moderation.addDefault("teleportBackToLocation",true);
+        moderation.addDefault("onTrue.teleportBackToLocation",false);
+        moderation.addDefault("onFalse.teleportBackToLocation",true);
         if(!(moderation.contains(player.getUniqueId().toString()))){
             moderation.set(player.getUniqueId()+".Name",player.getName());
         }
         moderation.set(player.getUniqueId()+".InModerationMode", bol);
+        moderation.set(player.getUniqueId()+".LastChanged",dateFormat.format(new Date()));
         trySaveConfig(moderation,file);
         if(bol){
+            if(moderation.getBoolean("onTrue.teleportBackToLocation")){
+                player.teleport(Objects.requireNonNull(moderation.getLocation(player.getUniqueId() + ".Location")));
+            }
             moderation.set(player.getUniqueId()+".AllowFlight",player.getAllowFlight());
             moderation.set(player.getUniqueId()+".Exp",player.getExp());
             moderation.set(player.getUniqueId()+".Flying",player.isFlying());
@@ -39,6 +47,7 @@ public class ManageModeration {
             moderation.set(player.getUniqueId()+".Health",player.getHealth());
             moderation.set(player.getUniqueId()+".Inventory",player.getInventory().getContents());
             moderation.set(player.getUniqueId()+".Location",player.getLocation());
+            moderation.set(player.getUniqueId()+".Velocity",player.getVelocity());
 
             trySaveConfig(moderation,file);
             player.getInventory().clear();
@@ -72,9 +81,15 @@ public class ManageModeration {
             ItemStack[] inv = invList.toArray(new ItemStack[0]);
             player.getInventory().setContents(inv);
             //location
-            if(moderation.getBoolean("teleportBackToLocation")){
+            if(moderation.getBoolean("onFalse.teleportBackToLocation")){
                 player.teleport(Objects.requireNonNull(moderation.getLocation(player.getUniqueId() + ".Location")));
             }
+            //velocity
+            player.setVelocity(Objects.requireNonNull(moderation.getVector(player.getUniqueId() + ".Velocity")));
+
+            //saving change date and config
+            moderation.set(player.getUniqueId()+".LastChanged",dateFormat.format(new Date()));
+            trySaveConfig(moderation,file);
         }
     }
     public boolean getModeration(Player player){
