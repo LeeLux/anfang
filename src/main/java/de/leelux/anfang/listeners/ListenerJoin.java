@@ -36,5 +36,8 @@ public class ListenerJoin implements Listener {
 
         //tablist
         plugin.getManagerTabList().setPlayerListHeaderFooterfromConfig(event.getPlayer());
+
+        //Obi to res
+        plugin.getObiToRes().giveResForObiInInv(event.getPlayer());
     }
 }

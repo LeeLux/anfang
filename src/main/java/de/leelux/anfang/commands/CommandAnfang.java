@@ -1,6 +1,7 @@
 package de.leelux.anfang.commands;
 
 import de.leelux.anfang.Anfang;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,6 +26,9 @@ public class CommandAnfang implements CommandExecutor, TabCompleter {
                 return true;
             }
             Anfang.getPlugin().configReload();
+            Bukkit.getOnlinePlayers().forEach(player -> {
+                Anfang.getPlugin().getObiToRes().giveResForObiInInv(player);
+            });
             sender.sendMessage(ChatColor.GREEN+"reloaded: "+ChatColor.ITALIC+"config");
             return true;
         }
@@ -51,12 +55,6 @@ public class CommandAnfang implements CommandExecutor, TabCompleter {
             StringUtil.copyPartialMatches(args[0], commands, completions);
         }
         if (args.length == 2) {
-            if(sender.hasPermission("anfang.command.anfang.reload.config")){
-                commands.add("config");
-            }
-            if(sender.hasPermission("anfang.command.anfang.reload.tab")){
-                commands.add("tab");
-            }
             StringUtil.copyPartialMatches(args[1], commands, completions);
         }
         Collections.sort(completions);

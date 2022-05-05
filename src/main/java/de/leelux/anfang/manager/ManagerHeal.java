@@ -17,6 +17,7 @@ public class ManagerHeal {
         double maxhealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
         player.setHealth(maxhealth);
         player.setFoodLevel(20);
+        player.setSaturation(1);
         player.sendMessage("§eYou have been healed!");
         cs.sendMessage("§eYou healed §c" + player.getName() + "§e!");
     }
@@ -25,6 +26,7 @@ public class ManagerHeal {
         double maxhealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
         player.setHealth(maxhealth);
         player.setFoodLevel(20);
+        player.setSaturation(1);
         player.sendMessage("§eYou have been healed!");
     }
 }

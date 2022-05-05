@@ -32,7 +32,7 @@ public final class Anfang extends JavaPlugin {
     private ManagerTabList managerTabList;
     private MessageCooldown messageCooldown;
     private ManageModeration manageModeration;
-
+    private ObiToRes obiToRes;
     public MySQL SQL;
     public SQLGetter database;
 
@@ -80,6 +80,7 @@ public final class Anfang extends JavaPlugin {
         this.managerTabList = new ManagerTabList();
         this.messageCooldown = new MessageCooldown(this);
         this.manageModeration = new ManageModeration(this);
+        this.obiToRes = new ObiToRes(this);
         this.setVanishManager(new ManageVanish(this));
         this.setFreezManager(new ManageFreez((Plugin) null));
         this.getCommand("heal").setExecutor(new CommandHeal(plugin));
@@ -120,6 +121,11 @@ public final class Anfang extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(getPrefix()+"========");
 
         startupdateTabList();
+
+        //obi effect start
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            Anfang.getPlugin().getObiToRes().giveResForObiInInv(player);
+        });
     }
     //motd
     public void setmotd(String newmotd){
@@ -205,6 +211,8 @@ public final class Anfang extends JavaPlugin {
     public ManagerTabList getManagerTabList() {return managerTabList;}
 
     public ManageModeration getManageModeration() {return manageModeration;}
+
+    public ObiToRes getObiToRes() {return obiToRes;}
 
     //Provide a player and return a menu system for that player
     //create one if they don't already have one

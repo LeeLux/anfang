@@ -13,6 +13,15 @@ Fun:
   OpCrossbowCanActivate: true
   #use "you text" instead of 'you text' or it will not work
   OpCrossbowNameToActivate: "Ainsta"
+  #everything about ObiToRes
+  #this amount or anything more than that starts to give you resistance
+  minObiToGiveRes: 1
+  #like how it is in the effect command BUT the first level ist NOT 0 its 1!! (max 256) it will get -1 in the end. Default is 10
+  maxResLevel: 10
+  #how many Obis you need to have to get the max Res level above. Default is 35*64=2240, so you just have one free slot.
+  ObiAmountForMaxResLevel: 2240
+  #witch effect should you get (up or lower case doesn't matter)
+  PotionEffectType: speed
 Messages:
   #set some default messages
   NoPermission: '&cNo Permission!'
