@@ -27,6 +27,7 @@ public class ObiToRes {
     }
 
     public void giveResForObiInInv(Player player){
+        if(!plugin.getConfig().getBoolean("Fun.useObiToRes")) {return;}
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             final int minObiToGiveRes = plugin.getConfig().getInt("Fun.minObiToGiveRes");
             final int maxResLevel = plugin.getConfig().getInt("Fun.maxResLevel");

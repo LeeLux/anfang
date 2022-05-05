@@ -14,6 +14,7 @@ Fun:
   #use "you text" instead of 'you text' or it will not work
   OpCrossbowNameToActivate: "Ainsta"
   #everything about ObiToRes
+  useObiToRes: true
   #this amount or anything more than that starts to give you resistance
   minObiToGiveRes: 1
   #like how it is in the effect command BUT the first level ist NOT 0 its 1!! (max 256) it will get -1 in the end. Default is 10
