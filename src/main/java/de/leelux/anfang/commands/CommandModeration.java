@@ -61,7 +61,7 @@ public class CommandModeration implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 if(args[0].equalsIgnoreCase("true")) {
-                    if(manageModeration.getModeration(player)){
+                    if(manageModeration.getModeration(target)){
                         mc.sendMessage(target,ChatColor.RED+"You Moderation Mode is already: "+ChatColor.GREEN+"true");
                         return true;
                     }
@@ -70,7 +70,7 @@ public class CommandModeration implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 if(args[0].equalsIgnoreCase("false")) {
-                    if(!manageModeration.getModeration(player)){
+                    if(!manageModeration.getModeration(target)){
                         mc.sendMessage(target,ChatColor.RED+"You Moderation Mode is already: "+ChatColor.RED+"false");
                         return true;
                     }
