@@ -105,7 +105,7 @@ public class CommandModeration implements CommandExecutor, TabCompleter {
                     sender.sendMessage(target.getName()+ChatColor.RED+"'s Moderation Mode is already: "+ChatColor.RED+"false");
                     return true;
                 }
-                manageModeration.setModeration(target, true);
+                manageModeration.setModeration(target, false);
                 sender.sendMessage(ChatColor.YELLOW+"You set "+target.getName()+"'s Moderation Mode to: "+ChatColor.RED+"false");
                 mc.sendMessage(target,ChatColor.YELLOW+"You set you Moderation Mode to: "+ChatColor.RED+"false");
                 return true;

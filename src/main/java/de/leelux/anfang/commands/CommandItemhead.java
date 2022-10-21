@@ -26,12 +26,12 @@ public class CommandItemhead implements CommandExecutor, TabCompleter {
             sender.sendMessage(Anfang.getPlugin().getMessage("Messages.NoPermission"));
             return true;
         }
-        if(!(args.length == 2)&&!(sender instanceof Player)){
-            sender.sendMessage(ChatColor.RED+"Use /itemhead <item> <player>");
+        if(!(args.length == 3)&&!(sender instanceof Player)){
+            sender.sendMessage(ChatColor.RED+"Use /itemhead <item> <player> <override>");
             return true;
         }
-        if(!(args.length == 1 || args.length == 2)){
-            sender.sendMessage(ChatColor.RED+"Use /itemhead <item> <player>");
+        if(!(args.length == 1 || args.length == 2 || args.length == 3)){
+            sender.sendMessage(ChatColor.RED+"Use /itemhead <item> <player> <override>");
             return true;
         }
         if(args.length == 1){
@@ -41,16 +41,26 @@ public class CommandItemhead implements CommandExecutor, TabCompleter {
                 return true;
             }
             Material m;
-            try{
-                m = Material.valueOf(args[0].toUpperCase(Locale.ROOT));
-            }catch (IllegalArgumentException e){
-                sender.sendMessage(ChatColor.RED+"Use a valid item at <item>!");
-                return true;
+            if(args[0].equalsIgnoreCase("<useMainHand>")){
+                try{
+                    player.getInventory().setHelmet(player.getInventory().getItemInMainHand());
+                    return true;
+                }catch (IllegalArgumentException e) {
+                    sender.sendMessage(ChatColor.RED + "Use a valid item in you hand!");
+                    return true;
+                }
+            }else{
+                try{
+                    m = Material.valueOf(args[0].toUpperCase(Locale.ROOT));
+                }catch (IllegalArgumentException e){
+                    sender.sendMessage(ChatColor.RED+"Use a valid item at <item>!");
+                    return true;
+                }
             }
             player.getInventory().setHelmet(itemBuilder.newItem(m,null));
             return true;
         }
-        if(args.length == 2){
+        if(args.length == 2 || args.length == 3){
             if(!(sender.hasPermission("anfang.command.itemhead.other"))){
                 sender.sendMessage(Anfang.getPlugin().getMessage("Messages.NoPermission"));
                 return true;
@@ -60,21 +70,40 @@ public class CommandItemhead implements CommandExecutor, TabCompleter {
                 sender.sendMessage("§cThe player §e" + args[1] + "§c dosn't exist or isn't online!");
                 return true;
             }
-            if(!(target.getInventory().getHelmet() == null)){
-                sender.sendMessage(ChatColor.RED+target.getName()+" has already something on there head!");
-                return true;
+            if(args.length == 3 && !args[2].equalsIgnoreCase("true")){
+                if(!(target.getInventory().getHelmet() == null)){
+                    sender.sendMessage(ChatColor.RED+target.getName()+" has already something on there head!");
+                    return true;
+                }
+            }
+            if(args.length == 2){
+                if(!(target.getInventory().getHelmet() == null)) {
+                    sender.sendMessage(ChatColor.RED + target.getName() + " has already something on there head!");
+                    return true;
+                }
             }
             Material m;
-            try{
+            if(args[0].equalsIgnoreCase("<useMainHand>")){
+                Player player = (Player) sender;
+                try{
+                    target.getInventory().setHelmet(player.getInventory().getItemInMainHand());
+                    return true;
+                }catch (IllegalArgumentException e) {
+                    sender.sendMessage(ChatColor.RED + "Use a valid item in you hand!");
+                    return true;
+                }
+            }else{
+                try{
                 m = Material.valueOf(args[0].toUpperCase(Locale.ROOT));
-            }catch (IllegalArgumentException e){
-                sender.sendMessage(ChatColor.RED+"Use a valid item at <item>!");
-                return true;
+                }catch (IllegalArgumentException e){
+                    sender.sendMessage(ChatColor.RED+"Use a valid item at <item>!");
+                    return true;
+                }
             }
             target.getInventory().setHelmet(itemBuilder.newItem(m,null));
             return true;
         }
-        sender.sendMessage(ChatColor.RED+"Use /itemhead <item> <player>");
+        sender.sendMessage(ChatColor.RED+"Use /itemhead <item> <player> <override>");
         return false;
     }
 
@@ -85,6 +114,7 @@ public class CommandItemhead implements CommandExecutor, TabCompleter {
         if (args.length == 1) {
             if(sender.hasPermission("anfang.command.itemhead")){
                 commands.add("<item>");
+                commands.add("<useMainHand>");
                 for(Material m : Material.values()){
                     commands.add(String.valueOf(m).toLowerCase(Locale.ROOT));
                 }
@@ -99,6 +129,11 @@ public class CommandItemhead implements CommandExecutor, TabCompleter {
                 });
                 StringUtil.copyPartialMatches(args[1], commands, completions);
             }
+        }
+        if(args.length == 3){
+            commands.add("<override>");
+            commands.add("true");
+            StringUtil.copyPartialMatches(args[2], commands, completions);
         }
         Collections.sort(completions);
         return completions;

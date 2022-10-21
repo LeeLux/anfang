@@ -23,7 +23,7 @@ public class CommandEnchantmax implements CommandExecutor, TabCompleter {
         this.plugin = plugin;
     }
 
-    //get all default enchantments and put them into a List<Enchantment>
+    //get all default enchantments and put them int o a List<Enchantment>
     public final List<Enchantment> availableEnchantments = Arrays.asList(org.bukkit.enchantments.Enchantment.values());
 
     @Override

@@ -15,7 +15,7 @@ public class ListenerPlayerDamagePlayer implements Listener {
         if(!Anfang.getPlugin().getConfig().getBoolean("Commands.pvp.use")) return;
         if(!(e.getDamager() instanceof Player player)) return;
         if(!(e.getEntity() instanceof Player target)) return;
-        if(Anfang.getPlugin().getConfig().getBoolean("Commands.pvp.creativeHitEverTime")&&player.getGameMode() == GameMode.CREATIVE) return;
+        if(Anfang.getPlugin().getConfig().getBoolean("Commands.pvp.ignoreWhileCreative")&&player.getGameMode() == GameMode.CREATIVE) return;
         if(!Anfang.getPlugin().getpvponList().contains(player)){
             Anfang.getPlugin().getMessageCooldown().sendMessage(player,ChatColor.YELLOW+"You pvp is currently: "+ChatColor.RED+"disabled");
             e.setCancelled(true);

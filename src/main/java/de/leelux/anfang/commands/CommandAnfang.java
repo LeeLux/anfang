@@ -7,6 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
@@ -29,14 +30,23 @@ public class CommandAnfang implements CommandExecutor, TabCompleter {
             Bukkit.getOnlinePlayers().forEach(player -> {
                 Anfang.getPlugin().getObiToRes().giveResForObiInInv(player);
             });
-            sender.sendMessage(ChatColor.GREEN+"reloaded: "+ChatColor.ITALIC+"config");
+            Anfang.getPlugin().startupdateTabList();
+            sender.sendMessage(Anfang.getPlugin().getPrefix()+ChatColor.ITALIC+ChatColor.GREEN+"config reloaded!");
             return true;
         }
-        if(args[0].equalsIgnoreCase("version")) {
+        if(args[0].equalsIgnoreCase("info")) {
             if(!(sender.hasPermission("anfang.command.anfang.version"))){
                 sender.sendMessage(Anfang.getPlugin().getMessage("Messages.NoPermission"));
                 return true;
             }
+            PluginDescriptionFile pluDes = Anfang.getPlugin().getPluginDescriptionFile();
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    "&l&7[&r&eName:&r&l&7] "+ pluDes.getName()+
+                    "\n&l&7[&r&eFull name:&r&l&7] "+pluDes.getFullName()+
+                    "\n&l&7[&r&eDescription:&r&l&7] "+pluDes.getDescription()+
+                    "\n&l&7[&r&ePrefix:&r&l&7] "+pluDes.getPrefix()+
+                    "\n&l&7[&r&eVersion:&r&l&7] "+pluDes.getVersion()+
+                    "\n&l&7[&r&eAPIVersion:&r&l&7] "+pluDes.getAPIVersion()));
         }
         return false;
     }
@@ -49,8 +59,8 @@ public class CommandAnfang implements CommandExecutor, TabCompleter {
             if(sender.hasPermission("anfang.command.anfang.reload")){
                 commands.add("reload");
             }
-            if(sender.hasPermission("anfang.command.anfang.version")){
-                commands.add("version");
+            if(sender.hasPermission("anfang.command.anfang.info")){
+                commands.add("info");
             }
             StringUtil.copyPartialMatches(args[0], commands, completions);
         }

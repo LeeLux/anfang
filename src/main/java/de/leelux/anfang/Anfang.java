@@ -12,7 +12,7 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -36,9 +36,6 @@ public final class Anfang extends JavaPlugin {
     public MySQL SQL;
     public SQLGetter database;
 
-    public Anfang() {
-    }
-
     private static final HashMap<Player, PlayerMenuUtility> playerMenuUtilityMap = new HashMap<>();
     private static final HashMap<Player, List<String>> playerMessageCooldown = new HashMap<>();
     private static final HashMap<Player, List<String>> playerSpamMessageCooldown = new HashMap<>();
@@ -57,6 +54,7 @@ public final class Anfang extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
+        //database start
         //connect to database
         this.SQL = new MySQL();
         this.database = new SQLGetter(this);
@@ -65,7 +63,7 @@ public final class Anfang extends JavaPlugin {
         } catch (ClassNotFoundException | SQLException e) {
             //e.printStackTrace();  not recommend
             //login info's are incorrect or not useing the database
-            Bukkit.getConsoleSender().sendMessage(getPrefix()+"Could not connect to database");
+            Bukkit.getLogger().warning(getPrefix()+ChatColor.YELLOW+"Could not connect to database ... disabling depending systems and commands");
         }
         //if database is connected give info about it
         if(SQL.isConnected()){
@@ -73,6 +71,46 @@ public final class Anfang extends JavaPlugin {
             database.createTables();
         }
         //database end
+
+        //enable things
+        callEnableMethods();
+
+        //tablist
+        startupdateTabList();
+
+        //obi effect start
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            Anfang.getPlugin().getObiToRes().giveResForObiInInv(player);
+        });
+        //console text
+        Bukkit.getConsoleSender().sendMessage(getPrefix()+getPluginDescriptionFile().getFullName()+" started!");
+    }
+
+    //call all enable methods
+    private void callEnableMethods(){
+        enableManager();
+        enableCommands();
+        enableRegisterEvents();
+    }
+
+    //register all custom events by onEnable
+    private void enableRegisterEvents(){
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        pluginManager.registerEvents(new ListenerJoin(plugin), this);
+        pluginManager.registerEvents(new ListenerQuit(), this);
+        //pluginManager.registerEvents(new GuiPlayer(plugin), this);
+        pluginManager.registerEvents(new ListenerMove(plugin), this);
+        pluginManager.registerEvents(new ListenerCrossBowShoot(plugin), this);
+        pluginManager.registerEvents(new ListenerServerListPing(), this);
+        pluginManager.registerEvents(new ListenerPlayerDamagePlayer(),this);
+        pluginManager.registerEvents(new ListenerSpamMessageCooldown(), this);
+        // pluginManager.registerEvents(new ListenerDoubbleJump(),this);
+        //MeunuListner
+        pluginManager.registerEvents(new MenuListener(),this);
+    }
+
+    //enables all custom manger by onEnable
+    private void enableManager(){
         this.managerHeal = new ManagerHeal(this);
         this.manageEnchantmax = new ManageEnchantmax(this);
         this.manageMoney = new ManageMoney(this);
@@ -82,7 +120,11 @@ public final class Anfang extends JavaPlugin {
         this.manageModeration = new ManageModeration(this);
         this.obiToRes = new ObiToRes(this);
         this.setVanishManager(new ManageVanish(this));
-        this.setFreezManager(new ManageFreez((Plugin) null));
+        this.setFreezManager(new ManageFreez(null));
+    }
+
+    //enables all custom commands by onEnable
+    private void enableCommands(){
         this.getCommand("heal").setExecutor(new CommandHeal(plugin));
         this.getCommand("kit").setExecutor(new CommandKit());
         this.getCommand("setspawn").setExecutor(new CommandSetspawn());
@@ -103,29 +145,8 @@ public final class Anfang extends JavaPlugin {
         this.getCommand("state").setExecutor(new CommandState());
         this.getCommand("pvp").setExecutor(new CommandPvp());
         this.getCommand("moderation").setExecutor(new CommandModeration());
+        this.getCommand("givepotion").setExecutor(new CommandGivepotion());
         //this.getCommand("ban").setExecutor(new CommandBan());
-        PluginManager pluginManager = Bukkit.getPluginManager();
-        pluginManager.registerEvents(new ListenerJoin(plugin), this);
-        pluginManager.registerEvents(new ListenerQuit(), this);
-        //pluginManager.registerEvents(new GuiPlayer(plugin), this);
-        pluginManager.registerEvents(new ListenerMove(plugin), this);
-        pluginManager.registerEvents(new ListenerCrossBowShoot(plugin), this);
-        pluginManager.registerEvents(new ListenerServerListPing(), this);
-        pluginManager.registerEvents(new ListenerPlayerDamagePlayer(),this);
-        pluginManager.registerEvents(new ListenerSpamMessageCooldown(), this);
-        //MeunuListner
-        pluginManager.registerEvents(new MenuListener(),this);
-        // pluginManager.registerEvents(new ListenerDoubbleJump(),this);
-        Bukkit.getConsoleSender().sendMessage(getPrefix()+"========");
-        Bukkit.getConsoleSender().sendMessage(getPrefix()+"Started!");
-        Bukkit.getConsoleSender().sendMessage(getPrefix()+"========");
-
-        startupdateTabList();
-
-        //obi effect start
-        Bukkit.getOnlinePlayers().forEach(player -> {
-            Anfang.getPlugin().getObiToRes().giveResForObiInInv(player);
-        });
     }
     //motd
     public void setmotd(String newmotd){
@@ -149,7 +170,7 @@ public final class Anfang extends JavaPlugin {
 
     public String getPrefix(){
         return getMessage("prefix")+" ";
-        //return "§7[§eAnfang§7] ";
+        //return default "§7[§eAnfang§7] ";
     }
 
     public String getMessage(String path) {
@@ -230,6 +251,10 @@ public final class Anfang extends JavaPlugin {
         }
     }
 
+    public PluginDescriptionFile getPluginDescriptionFile(){
+        return this.getDescription();
+    }
+
     public static List<String> getPlayerSpamMessageCooldown(Player player){
         if(!(playerSpamMessageCooldown.containsKey(player))){
             playerSpamMessageCooldown.put(player, new ArrayList<String>());
@@ -251,16 +276,24 @@ public final class Anfang extends JavaPlugin {
     public int getSpamMessageCooldown() {return spamMessageCooldown;}
 
     public void startupdateTabList(){
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+        if(Anfang.getPlugin().getConfig().getBoolean("TabList.use")) {
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
 
-            @Override
-            public void run() {
-                for(Player all : Bukkit.getOnlinePlayers()) {
-                    getManagerTabList().setPlayerListHeaderFooterfromConfigforall();
+                @Override
+                public void run() {
+                    for (Player all : Bukkit.getOnlinePlayers()) {
+
+                        getManagerTabList().setPlayerListHeaderFooterfromConfigforall();
+                    }
+
                 }
+            }, 0, 20);
+        }else{
+            for (Player all : Bukkit.getOnlinePlayers()) {
 
+                getManagerTabList().setPlayerListHeaderFooter(all, "","");
             }
-        }, 0, 20);
+        }
     }
 
     public MessageCooldown getMessageCooldown() {return messageCooldown;}

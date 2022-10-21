@@ -6,6 +6,7 @@
 #
 #turn this un if you want a ton of debug messages (useful for dev)
 debug: false
+useCustomMotd: true
 motd: '&eThis is the &dmotd&e!'
 prefix: '&7[&eAnfang&7]'
 Fun:
@@ -54,7 +55,7 @@ Commands:
     MaxAmount: 1000
   pvp:
     use: true
-    creativeHitEverTime: true
+    ignoreWhileCreative: true
 TabList:
   use: true
   header:

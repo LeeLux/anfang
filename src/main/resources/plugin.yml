@@ -1,7 +1,7 @@
 name: Anfang
 version: 0.4
 main: de.leelux.anfang.Anfang
-description: I simple Plugin with some cool feutuages!
+description: A simple Plugin with some cool feutuages!
 api-version: 1.17
 author: LeeLux
 website: https://www.youtube.com/channel/UCTL2EnToGrLXZaHV7oYHRDg
@@ -10,86 +10,68 @@ prefix: anfang
 commands:
    heal:
       description: Set heal and food to Max!
-      usage:
       permission: anfang.heal
    kit:
       description: Opends a Inventory inwhat you can claim a kit!
-      usage:
       permission: anfang.kit
    setspawn:
       description: Sets the spawn to the corrent location!
-      usage:
       permission: anfang.setspawn
    spawn:
       description: Teleports you to spawn!
-      usage:
       permission: anfang.spawn
    timer:
       description: Starts a timer!
-      usage:
       permission: anfang.timer
    clearchat:
       description: Clears the chat!
-      usage:
       permission: anfang.clearchat
    vanish:
       description: Vanishs you!
-      usage:
       permission: anfang.vanish
       aliases: [ v ]
    player:
       description: Gives a list of online players and manage them with a gui!
-      usage:
       permission: anfang.player
    freez:
       description: Freez a player!
-      usage:
       permission: anfang.freez
    enchantmax:
       description: Like the default enchat command but with no level limit!
-      usage:
       permission: anfang.command.enchatmax
    summonmax:
       description: Summons how many enities you want without custom nbt!
-      usage:
       permission: anfang.command.summonmax
    money:
       description: Everything with the money system!
-      usage:
       permission: anfang.command.money
    motd:
       description: Get and set the motd!
-      usage:
       permission: anfang.command.motd
    speed:
       description: Change players fly speed!
-      usage:
       permission: anfang.command.speed
    #ban:
       #description: Bans a player!
-      #usage:
       #permission: anfang.command.ban
    itemhead:
       description: Set a item on a players head!
-      usage:
       permission: anfang.command.itemhead
    gm:
       description: Set a players gamemode!
-      usage:
       permission: anfang.command.gm
    anfang:
       description: general plugin stuff!
-      usage:
       permission: anfang.command.anfang
    state:
       description: set you state!
-      usage:
       permission: anfang.command.state
    pvp:
       description: Set a players pvp state!
-      usage:
       permission: anfang.command.pvp
    moderation:
       description: sets a players moderation mode
-      usage:
       permission: anfang.command.moderation
+   givepotion:
+      description: a tool for giving you custom and special potions
+      permission: anfang.command.givepotion

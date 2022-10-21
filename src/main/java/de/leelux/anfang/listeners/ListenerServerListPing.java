@@ -10,6 +10,8 @@ public class ListenerServerListPing implements Listener {
     @EventHandler
     public void onServerListPing(ServerListPingEvent event)
     {
-        event.setMotd(Anfang.getPlugin().getConfig().getString("motd").replaceAll("&","§"));
+        if(Anfang.getPlugin().getConfig().getBoolean("useCustomMotd")){
+            event.setMotd(Anfang.getPlugin().getConfig().getString("motd").replaceAll("&","§"));
+        }
     }
 }

@@ -27,17 +27,7 @@ public class CommandGm implements CommandExecutor, TabCompleter {
         }
         if(args.length == 1&&gms.contains(args[0])){
             Player player = (Player) sender;
-            GameMode gm;
-            switch (args[0]) {
-                case "adventure", "adv", "2", "a" -> gm = GameMode.ADVENTURE;
-                case "creative", "cre", "1", "c" -> gm = GameMode.CREATIVE;
-                case "survival", "sur", "0", "s" -> gm = GameMode.SURVIVAL;
-                case "spectator", "spe", "3" -> gm = GameMode.SPECTATOR;
-                default -> {
-                    sender.sendMessage(ChatColor.RED + "Use a valid gamemode at <gamemode>!");
-                    return true;
-                }
-            }
+            GameMode gm = getGM(args,sender);
             if(player.getGameMode() == gm){
                 return true;
             }
@@ -50,17 +40,7 @@ public class CommandGm implements CommandExecutor, TabCompleter {
                 sender.sendMessage(Anfang.getPlugin().getMessage("Messages.NoPermission"));
                 return true;
             }
-            GameMode gm;
-            switch (args[0]) {
-                case "adventure", "adv", "2", "a" -> gm = GameMode.ADVENTURE;
-                case "creative", "cre", "1", "c" -> gm = GameMode.CREATIVE;
-                case "survival", "sur", "0", "s" -> gm = GameMode.SURVIVAL;
-                case "spectator", "spe", "3" -> gm = GameMode.SPECTATOR;
-                default -> {
-                    sender.sendMessage(ChatColor.RED + "Use a valid gamemode at <gamemode>!");
-                    return true;
-                }
-            }
+            GameMode gm = getGM(args,sender);
             Player target = Bukkit.getPlayer(args[1]);
             if(target == null){
                 sender.sendMessage("§cThe player §e" + args[1] + "§c dosn't exist or isn't online!");
@@ -76,6 +56,21 @@ public class CommandGm implements CommandExecutor, TabCompleter {
         }
         sender.sendMessage(ChatColor.RED+"Use /gm <gamemode> <player>");
         return false;
+    }
+
+    private GameMode getGM(String[] args, CommandSender sender){
+        Player player = (Player)sender;
+        GameMode gm = player.getGameMode();
+        switch (args[0]) {
+            case "adventure", "adv", "2", "a" -> gm = GameMode.ADVENTURE;
+            case "creative", "cre", "1", "c" -> gm = GameMode.CREATIVE;
+            case "survival", "sur", "0", "s" -> gm = GameMode.SURVIVAL;
+            case "spectator", "spe", "3" -> gm = GameMode.SPECTATOR;
+            default -> {
+                sender.sendMessage(ChatColor.RED + "Use a valid gamemode at <gamemode>!");
+            }
+        }
+        return gm;
     }
 
     @Override
