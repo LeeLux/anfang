@@ -51,7 +51,7 @@ Commands:
       Reason: "&cYou are banned!\n&dTo unban ask a Admin!"
       Kick: "&CHe got banned from the Server!"
   summonmax:
-    #what is the max amount of entitys that you can summon at once with that command
+    #what is the max amount of entities that you can summon at once with that command
     MaxAmount: 1000
   pvp:
     use: true

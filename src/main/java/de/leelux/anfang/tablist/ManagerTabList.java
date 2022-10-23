@@ -50,7 +50,8 @@ public class ManagerTabList {
         if(team == null){
             team = scoreboard.registerNewTeam(state);
         }
-        team.setSuffix(ChatColor.GRAY+" ["+state+"]");
+        team.setSuffix(ChatColor.translateAlternateColorCodes('&'," &7&o"+state));
         team.addEntry(player.getName());
+        Bukkit.broadcastMessage("Team: "+ team.getName()+" and player: "+ player.getName());
     }
 }
