@@ -6,24 +6,37 @@
 #
 #turn this un if you want a ton of debug messages (useful for dev)
 debug: false
-useCustomMotd: true
-motd: '&eThis is the &dmotd&e!'
+useCustomMotd: false
+motd: '&eThis is the custom &dmotd&e!'
 prefix: '&7[&eAnfang&7]'
 Fun:
   #Ths Op Crossbow will have an arrow velocity multipled by 100
   OpCrossbowCanActivate: true
   #use "you text" instead of 'you text' or it will not work
   OpCrossbowNameToActivate: "Ainsta"
-  #everything about ObiToRes
-  useObiToRes: true
-  #this amount or anything more than that starts to give you resistance
-  minObiToGiveRes: 1
+  ##ItemGiveEffects
+  #if this feature should be used
+  useItemGiveEffects: true
+  #the min amount before you get the effect
+  minItemAmountToGetEffect: 1
   #like how it is in the effect command BUT the first level ist NOT 0 its 1!! (max 256) it will get -1 in the end. Default is 10
-  maxResLevel: 10
-  #how many Obis you need to have to get the max Res level above. Default is 35*64=2240, so you just have one free slot.
-  ObiAmountForMaxResLevel: 2240
-  #witch effect should you get (up or lower case doesn't matter)
+  maxEffectLevel: 10
+  #how many Items you need to have to get the max Effect level. Default is 35*64=2240, so you just have one free slot.
+  ItemAmountForMaxEffectLevel: 2240
+  #witch effect should you get (up or lower case doesn't matter) NOT ALL EFFECTS ARE CALLED LIKE IN GAME! LOOK AT 'PotionEffectType' FROM THE SPIGOT WIKI!
   PotionEffectType: speed
+  #witch Item you need to get the effect
+  Item:
+    #witch materials give you the effect (up or lower case doesn't matter) Use the name like with the give command without 'the minecraft:'!
+    Materials:
+      - obsidian
+      - crying_obsidian
+    #if it should only count items with a specific CustomModelDate
+    UseCustomModelDates: false
+    #witch CustomModelDates the Items can have to count
+    CustomModelDates:
+      - 10
+      - 11
 Messages:
   #set some default messages
   NoPermission: '&cNo Permission!'
@@ -54,10 +67,10 @@ Commands:
     #what is the max amount of entities that you can summon at once with that command
     MaxAmount: 1000
   pvp:
-    use: true
+    use: false
     ignoreWhileCreative: true
 TabList:
-  use: true
+  use: false
   header:
     - ' &8&m          &r&8[ &6Tab&dList &8]&m          &r '
     - ''

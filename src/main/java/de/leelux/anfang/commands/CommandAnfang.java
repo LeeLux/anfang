@@ -28,7 +28,7 @@ public class CommandAnfang implements CommandExecutor, TabCompleter {
             }
             Anfang.getPlugin().configReload();
             Bukkit.getOnlinePlayers().forEach(player -> {
-                Anfang.getPlugin().getObiToRes().giveResForObiInInv(player);
+                Anfang.getPlugin().getItemEffects().givePlayerEffect(player);
             });
             Anfang.getPlugin().startupdateTabList();
             sender.sendMessage(Anfang.getPlugin().getPrefix()+ChatColor.ITALIC+ChatColor.GREEN+"config reloaded!");
